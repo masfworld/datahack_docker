@@ -1,0 +1,46 @@
+version: "3"
+
+services:
+ 
+ portainer:
+  image: portainer/portainer
+  container_name: portainer
+  command: -H unix:///var/run/docker.sock
+  ports:
+   - 9010:9000
+   - 8010:8000
+  volumes:
+   - /var/run/docker.sock:/var/run/docker.sock
+   - portainer_data:/data
+
+ zeppelin:
+  image: masfworld/zeppelin:latest
+  container_name: zeppelin
+  ports:
+   - 9999:8080
+   - 4040:4040
+  volumes:
+   - ./zeppelin/shared:/tmp/shared
+   - ./zeppelin/data:/zeppelin/data
+   - ./zeppelin/notebook:/zeppelin/notebook
+
+ zookeeper:
+  image: wurstmeister/zookeeper
+  container_name: zookeeper
+  ports:
+   - 2181:2181
+
+ kafka:
+  image: kafka-docker_kafka
+  container_name: kafka
+  depends_on:
+   - zookeeper
+  ports:
+   - 9092:9092
+  environment:
+   KAFKA_ADVERTISED_HOST_NAME: kafka
+   KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+
+
+volumes:
+ portainer_data:
