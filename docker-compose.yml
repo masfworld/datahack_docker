@@ -14,7 +14,7 @@ services:
    - portainer_data:/data
 
  zeppelin:
-  image: masfworld/zeppelin:latest
+  image: apache/zeppelin:0.8.1
   container_name: zeppelin
   ports:
    - 9999:8080
@@ -31,7 +31,7 @@ services:
    - 2181:2181
 
  kafka:
-  image: kafka-docker_kafka
+  image: masfworld/kafka
   container_name: kafka
   depends_on:
    - zookeeper
