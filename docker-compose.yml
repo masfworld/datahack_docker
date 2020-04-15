@@ -4,7 +4,8 @@ services:
  
  portainer:
   image: portainer/portainer
-  container_name: portainer
+  container_name: portainer_datahack
+  restart: always
   command: -H unix:///var/run/docker.sock
   ports:
    - 9010:9000
@@ -15,10 +16,11 @@ services:
 
  zeppelin:
   image: masfworld/zeppelin
-  container_name: zeppelin
+  container_name: zeppelin_datahack
+  restart: always
   ports:
    - 9999:8080
-   - 4040:4040
+   - 4041:4040   
   volumes:
    - ./zeppelin/shared:/tmp/shared
    - ./zeppelin/data:/zeppelin/data
@@ -26,13 +28,15 @@ services:
 
  zookeeper:
   image: wurstmeister/zookeeper
-  container_name: zookeeper
+  container_name: zookeeper_datahack
+  restart: always
   ports:
-   - 2181:2181
+   - 2181:2181  
 
  kafka:
   image: masfworld/kafka
-  container_name: kafka
+  container_name: kafka_datahack
+  restart: always
   depends_on:
    - zookeeper
   ports:
